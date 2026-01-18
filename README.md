@@ -1,6 +1,6 @@
 # Sherlock Clipboard History (with clipvault!)
 
-This is a lightweight program to enable clipboard history support for Sherlock using clipvault, which is adapted from a similar program which uses [cliphist](https://github.com/Skxxtz/sherlock-clipboard) instead. Do check them out!
+This is a lightweight program to enable clipboard history support for Sherlock using [clipvault](https://github.com/Rolv-Apneseth/clipvault), which is adapted from a similar program which uses [cliphist](https://github.com/Skxxtz/sherlock-clipboard) instead. Do check them out!
 
 
 ## Usage
