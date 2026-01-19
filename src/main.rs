@@ -1,10 +1,10 @@
-use fancy_regex::Regex;
 use image::ImageFormat;
 use rayon::prelude::*;
+use regex::Regex;
 use serde::Serialize;
 use serde_json;
 use std::env;
-use std::io::Cursor;
+use std::io::{BufWriter, Cursor};
 use std::process::Command;
 
 fn main() {
@@ -41,7 +41,7 @@ fn main() {
                 title = Some(t.to_string());
                 result = Some(id.to_string());
 
-                if re.is_match(line).unwrap_or(false) {
+                if re.is_match(line) {
                     // This command now runs in a separate thread thanks to rayon
                     let decoded_output = Command::new("clipvault")
                         .arg("get")
@@ -84,8 +84,12 @@ fn main() {
     // Serialize to json and print
     let res = PipeResult::new(data);
 
-    let json = serde_json::to_string(&res).expect("failed to serialize");
-    print!("{}", json);
+    let stdout = std::io::stdout();
+    let handle = stdout.lock();
+    let writer = BufWriter::new(handle);
+
+    //write JSON via streaming instead of allocating a String
+    serde_json::to_writer(writer, &res).expect("failed to serialize");
 }
 
 #[derive(Debug, Serialize, Clone)]
